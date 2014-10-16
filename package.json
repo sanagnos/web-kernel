@@ -1,0 +1,22 @@
+{
+  "name": "web-kernel",
+  "version": "0.0.1",
+  "author": "Stelios Anagnostopoulos <stelios@outlook.com>",
+  "description": "RPC-based AMD server-client middleware",
+  "license": "All rights reserved.",
+  "main": "init.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sanagnos/web-kernel"
+  },
+  "bugs": {
+    "url": "https://github.com/sanagnos/web-kernel/issues"
+  },
+  "engines": {
+    "node": "0.10.32"
+  },
+  "dependencies": {
+    "ws": "*",
+    "uglify-js": "*"
+  }
+}

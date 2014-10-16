@@ -1,0 +1,1 @@
+client.declare("./hi-module",function(){function n(n){console.log("mod> hi, "+n)}return{hi:n}});

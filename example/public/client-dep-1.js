@@ -1,0 +1,1 @@
+client.declare("./client-dep-1",function(){function i(i){console.log("dep1> this is #1 saying hi, "+i)}return{sayHi:i}});
