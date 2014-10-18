@@ -51,11 +51,12 @@
             });
 
             // load a view as js, html, and css
-            client.invoke({
-                css : ['./async-style-1.css', './async-style-2'],
-                html: './async-dom',
-                js  : './async-script.js'
-            }, function (mod) {
+            client.invoke([
+                './async-style-1.css', 
+                './async-style-2.css',
+                './async-dom.html',
+                './async-script.js'
+            ], function (mod) {
                 mod.changeParagraph('very async');
             });
         </script>

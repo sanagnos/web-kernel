@@ -5,7 +5,7 @@ web-kernel
 
 Modular RPC abstraction for client/server systems over WebSockets & XHR in end-to-end Javascript.
 
-The goal is to consolidate fragmented workflows to a consistent API engineered around laconic & frinctionless development: using the minimum necessary number of steps to get something done and aiming for the maximum possible performance, in both memory & computation.
+The goal is to consolidate fragmented workflows to a consistent API engineered around laconic & frinctionless development: use the minimum necessary steps & aim for the maximum performance.
 
 The scope of the functionality falls under four recurring tasks:
 
@@ -41,15 +41,15 @@ To run the example
 #### `init(config[, cb])`
 Starts up server on given configurations.
 
-##### args
+##### options
 ###### `config`
 
 | config properties | types           | about                                                                                        |
 | ----------------- | --------------- | -------------------------------------------------------------------------------------------- |
 | port              | Number          | http connection port                                                                         |
-| requests          | Array           | paths to request modules or direct { namespace, perms, taskFoo } entries                     |
-| services          | Array           | paths to service modules or direct { namespace, perms, taskFoo } entries                     |
-| authServices      | Function        | auth handler (passed client-side auth params, it propagates set of allowed rpc service perms to callback) |
+| requests          | Array           | requests definitions as { '/foo': handler(req, res) } entries (or group of)                  |
+| services          | Array           | service modules declarations as { namespace, perms, taskFoo } entries                        |
+| authServices      | Function        | auth handler passed client-side account params to aquire valid permission to rpc services    |
 | clientPath        | String          | directory of client source files                                                             |
 | publicPath        | String          | static directory where client files are copied over                                          |
 | minifyClient      | Boolean         | if true, minifies code in publicPath                                                         |
@@ -60,9 +60,9 @@ Callback to entry point after successful server initialization.
 ### Client
 
 #### `open([[usr, [pwd, [email]]], cb])`
-Connects to server endpoint, delegating to callback when done. 
+Connects to server endpoint, delegating to callback when done.
 
-If authServices handles authentication, this is the client entry-point to pass in the credentials & get the proper permissions to RPC modules.
+Auth parameters are optional, but required for permissions-restricted rpc modules.
 
 #### `close()`
 Closes connection.
@@ -100,7 +100,7 @@ client.declare('./hi-module', function() {
 });
 
 ```
-#### Invocation (client-side)
+#### Invocation
 ```javascript
 // example/client/index.html
 client.invoke('./hi-module', function (mod) {
@@ -206,7 +206,7 @@ publicPath  : absPath('./public'), // assets accessed by clients
 minifyClient: true                 // code in the publicPath is minified
 ```
 ## Design
-Each of the four functional areas scoped have been designed with the following principles in mind.
+Each of the four functional areas scoped have been designed with the following approaches in mind.
 
 ### File serving
 Manually enumerating client files isn't compatible to agile prototyping.
@@ -218,10 +218,12 @@ The static js files can optionally be minified to optimize for bandwidth (see `m
 ### Request routing
 Use a single entrypoint for routes and support both declarative & modular registrations.
 
-Register either by module exporting `/route` - `hander(req,res)` key-value pairs or declarativelly on initialization by adding an object of valid key-value pairs to the `requests` list.
+Register either by module exporting `/route` - `hander(req, res)` key-value pairs or declarativelly on initialization by adding an object of valid key-value pairs to the `requests` list.
 
 ### Async module loading
-Declaration & invocation as the two core flows to optimize around; everything else (dependency injection, minification, etc should be handled in parameters).
+`declare` & `invoke` as the two core flows to optimize around.
+
+Anything secondary, like caching, dependency injection, minification, etc., should be handled in parameters or without public access.
 
 ### Client-server RPC
 Use a single entrypoint for RPC modules and support both declarative & modular registrations.
@@ -238,3 +240,4 @@ Feel free to use non-commercially, but drop me a line for anything but for the s
 
 ## Changelog
 * 0.0.1 -- First commit; redesign from older codebase.
+* 0.0.2 -- Improved url validation for AMD.
