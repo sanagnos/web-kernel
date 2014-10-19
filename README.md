@@ -18,19 +18,25 @@ This is an open-source component of an [experiment](http://www.nesi.io) with an 
 
 ## Getting started
 
-To use make sure you have [node](http://www.nodejs.org) installed, and point your terminal to the directory
+To use make sure you have [node](http://www.nodejs.org) installed, and point your terminal to
 ```
 > cd ./web-kernel
 ```
 
-To setup dependencies
+To setup dependencies,
 ```
 > npm install
 ```
 
-To run the example
+To run the stencil with example usage scenarios,
 ```
-> node example/main
+> node examples/stencil/main
+> chrome localhost
+```
+
+To serve a local instance of the [neural-network webgl vizualizer](https://github.com/nxxcxx/Neural-Network) on your browser,
+```
+> node examples/neural-network/main
 > chrome localhost
 ```
 
@@ -82,12 +88,12 @@ Get request xhr utility.
 Post request xhr utility.
 
 ## Usage
-Some snippets from example/*.
+Some snippets from examples/stencil/*.
 
 ### Async modules
 #### Declaration
 ```javascript
-// example/client/hi-module.js
+// examples/stencilclient/hi-module.js
 client.declare('./hi-module', function() {
 
     function hi(name) {
@@ -102,7 +108,7 @@ client.declare('./hi-module', function() {
 ```
 #### Invocation
 ```javascript
-// example/client/index.html
+// examples/stencil/client/index.html
 client.invoke('./hi-module', function (mod) {
     mod.hi('dogge');
 });
@@ -112,7 +118,7 @@ client.invoke('./hi-module', function (mod) {
 
 #### Declaration
 ```javascript
-// example/server/calc-basic
+// examples/stencil/server/calc-basic
 module.exports = {
 
     namespace: 'CalcBasic',
@@ -127,7 +133,7 @@ module.exports = {
     }
 };
 
-// example/server/calc-pro
+// examples/stencil/server/calc-pro
 module.exports = {
     
     namespace: 'CalcPro',
@@ -141,7 +147,7 @@ module.exports = {
 ```
 #### Invocation
 ```javascript
-// example/client/index.html
+// examples/stencil/client/index.html
 client.open('dogge', '1234', function () {
 
     proxy.CalcBasic.add(1, 2, function (res) {
@@ -159,7 +165,7 @@ client.open('dogge', '1234', function () {
 #### Server
 
 ```javascript
-// example/main.js
+// examples/stencil/main.js
 requests: [
 		
 	// routing module with a collection of xhr routes
@@ -177,7 +183,7 @@ requests: [
 	}
 ]
 
-// example/server/routes.js
+// examples/stencil/server/routes.js
 module.exports = {
 	'/foo': function (req, res) {
 		var data = '';
@@ -192,7 +198,7 @@ module.exports = {
 ```
 #### Client
 ```javascript
-// example/client/index.html
+// examples/stencil/client/index.html
 client.post('/foo', { wat: 'baz' }, function (res) {
     console.log(res);
 });
@@ -200,7 +206,7 @@ client.post('/foo', { wat: 'baz' }, function (res) {
 
 ### Static serving
 ```javascript
-// example/main.js
+// examples/stencil/main.js
 clientPath  : absPath('./client'), // working assets
 publicPath  : absPath('./public'), // assets accessed by clients
 minifyClient: true                 // code in the publicPath is minified
