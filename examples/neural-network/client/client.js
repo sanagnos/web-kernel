@@ -150,7 +150,10 @@ window.client = (function() {
                 if ( dependencies[path] ) {
                     each( dependencies[path], invokeModule, function (res) {
                         delete dependencies[path];
-                        modules[path] = modules[path].apply({}, res);
+                        var ctx = {};
+                        modules[path] = modules[path].apply(ctx, res);
+                        if (!modules[path])
+                            modules[path] = ctx;
                         cb( modules[path] );
                     });
                 } else {
